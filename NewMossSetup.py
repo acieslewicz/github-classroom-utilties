@@ -15,10 +15,7 @@ def clone_assignments(names, classroom, assignment, tag):
         print(name)
         clone_cmd = f"git clone --branch {tag} git@github.com:{classroom}/{assignment}-{name}"
         os.system(clone_cmd)
-    # Clone Starter as well
-    clone_cmd = f"git clone git@github.com:{classroom}/{assignment}-starter"
-    os.system(clone_cmd)
-    time.sleep(5)
+        time.sleep(5)
 
 def parse_repositories(names, destination_path):
     for root, _, files in os.walk(os.getcwd()):
