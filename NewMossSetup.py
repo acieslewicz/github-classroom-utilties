@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 import shutil
+import time
 
 def parse_roster(roster_path):
     with open(roster_path) as f:
@@ -15,6 +18,7 @@ def clone_assignments(names, classroom, assignment, tag):
     # Clone Starter as well
     clone_cmd = f"git clone git@github.com:{classroom}/{assignment}-starter"
     os.system(clone_cmd)
+    time.sleep(5)
 
 def parse_repositories(names, destination_path):
     for root, _, files in os.walk(os.getcwd()):
@@ -53,6 +57,11 @@ def main():
         type=str, required=True,
         help='Location of the MOSS prep output.'
     )
+    parser.add_argument(
+        '-m', '--setupMoss',
+        type=bool, required=False, default=False,
+        help='Location of the MOSS prep output.'
+    )
     options = parser.parse_args()
     destination_path = os.path.abspath(options.destinationPath)
     names = parse_roster(options.rosterPath)
@@ -64,16 +73,17 @@ def main():
     clone_assignments(names, options.classroom, options.assignment, options.tag)
 
     # Setup Directory structure for MOSS
-    os.chdir(destination_path)
-    os.mkdir("Moss-Directory")
-    os.chdir("Moss-Directory")
-    for name in names:
-        os.mkdir(name)
+    if options.setupMoss:
+        os.chdir(destination_path)
+        os.mkdir("Moss-Directory")
+        os.chdir("Moss-Directory")
+        for name in names:
+            os.mkdir(name)
 
-    # Go through every cloned repository and copy over ".c" and ".h" files
-    os.chdir(destination_path)
-    os.chdir("GitHub-Repos")
-    parse_repositories(names, destination_path)
+        # Go through every cloned repository and copy over ".c" and ".h" files
+        os.chdir(destination_path)
+        os.chdir("GitHub-Repos")
+        parse_repositories(names, destination_path)
 
 if __name__ == "__main__":
     main()
