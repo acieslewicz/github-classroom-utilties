@@ -63,8 +63,8 @@ def main():
     destination_path = os.path.abspath(options.destinationPath)
     names = parse_roster(options.rosterPath)
 
-    if not os.path.exists(destination_path):
-        os.remove(destination_path)
+    if os.path.exists(destination_path):
+        shutil.rmtree(destination_path)
     os.mkdir(destination_path)
 
     # Clone Project Repositories
