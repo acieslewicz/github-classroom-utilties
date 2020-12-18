@@ -12,7 +12,7 @@ def parse_roster(roster_path):
 
 def clone_assignments(names, classroom, assignment, tag):
     for name in names:
-        print(name)
+        print(f"Cloning Repository for: {name}")
         clone_cmd = f"git clone --branch {tag} git@github.com:{classroom}/{assignment}-{name}"
         os.system(clone_cmd)
         time.sleep(5)
